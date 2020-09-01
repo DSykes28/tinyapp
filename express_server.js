@@ -11,14 +11,12 @@ function generateRandomString() {
 
   let code = '';
   const lettersNumbers = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
-  for (let i = 0; i < 6; i++) {
-    code += lettersNumbers.charAt(Math.floor(Math.random() * lettersNumbers.legth));
+  for (let i = 0; i < 6; i++) 
+    code += lettersNumbers.charAt(Math.floor(Math.random() * lettersNumbers.length));
 
     return code;
-  }
-
-
 };
+
 
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
