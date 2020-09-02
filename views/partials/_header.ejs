@@ -4,10 +4,26 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-item nav-link" href="/urls">My URLs</a>
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
+                
+          <% if (username){ %>
+            <h2><%= username %></h2>
+            
+            <form method="POST" action="<%= username %>/logout">
+              <input type="submit" value="Logout">
+           </form>
+            <% } else{ %>
+              
+              <form class="form-inline" method="POST" action="/login" name ="username"> Username:<br>
+                <input id= "username" type="text" name="username" value"">
+                <button type= "submit">Submit</button>
+               </form>
+              
+          <% } %>
       </div>
     </div>
   </nav>
