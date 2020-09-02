@@ -44,7 +44,7 @@ app.get("/urls/new", (req, res) => {
 app.post("/urls", (req, res) => {
   const shortURL = generateRandomString();
   const longURL = req.body.longURL;
-  console.log(longURL);  // Log the POST request body to the console
+  //console.log(longURL);  // Log the POST request body to the console
   urlDatabase[shortURL] = longURL;
   res.redirect(`/urls/${shortURL}`);
 });
@@ -53,6 +53,10 @@ app.post("/urls/:shortURL/delete", (req, res) => {
   delete urlDatabase[req.params.shortURL];
   res.redirect("urls");
 });
+
+app.post("/urls/:id", (req, res) => {
+  res.redirect(`urls/${shortURL}`)
+})
 
 app.get("/urls/:shortURL", (req, res) => {
   let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL]};
