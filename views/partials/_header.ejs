@@ -10,22 +10,6 @@
         <a class="nav-item nav-link" href="/urls">My URLs</a>
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
                 
-<<<<<<< HEAD
-          <% if (username){ %>
-            <h2><%= username %></h2>
-            
-            <form method="POST" action="<%= username %>/logout">
-              <input type="submit" value="Logout">
-           </form>
-
-            <% } else{ %>
-              
-              <form class="form-inline" method="POST" action="/login" name ="username"> Username:<br>
-                <input id= "username" type="text" name="username" value"">
-                <button type= "submit">Submit</button>
-               </form>
-              
-=======
           <% if (!user_id){ %>
                        
             <a class="nav-item nav-link" href="/login">login</a>
@@ -37,14 +21,8 @@
                 <input type="submit" value="Logout">
              </form>
 
->>>>>>> feature/user-registration
           <% } %>
       </div>
     </div>
   </nav>
-<<<<<<< HEAD
 </header>
-
-=======
-</header>
->>>>>>> feature/user-registration
