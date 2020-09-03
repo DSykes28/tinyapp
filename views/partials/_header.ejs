@@ -10,16 +10,16 @@
         <a class="nav-item nav-link" href="/urls">My URLs</a>
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
                 
-          <% if (username){ %>
-            <h2><%= username %></h2>
+          <% if (user){ %>
+            <h4><%= user.email %></h4>
             
-            <form method="POST" action="<%= username %>/logout">
+            <form method="POST" action="<%= user %>/logout">
               <input type="submit" value="Logout">
            </form>
             <% } else{ %>
               
               <form class="form-inline" method="POST" action="/login" name ="username"> Username:<br>
-                <input id= "username" type="text" name="username" value"">
+                <input id= "username" type="email" name="email" value"">
                 <button type= "submit">Submit</button>
                </form>
               
