@@ -17,7 +17,6 @@ app.use(morgan('dev'));
 
 const bodyParser = require("body-parser");
 const { json } = require("body-parser");
-const e = require("express");
 app.use(bodyParser.urlencoded({extended: true}));
 
 function generateRandomString() {
@@ -51,6 +50,14 @@ const users = {
   }
 }
 
+const lookUpByEmail = ( newEmail) => {
+  for (const id in users) {
+    if (newEmail === users[id].email) {
+      return id;
+    }
+  } return false;
+};
+
 
 app.get("/", (req, res) => {
   console.log('Cookies:', req.cookies);
@@ -60,7 +67,7 @@ app.get("/", (req, res) => {
 
 app.get('/urls', (req, res) => {
   let templateVars = { urls: urlDatabase,
-    user: req.cookies['user_id'], };
+    user_id: req.cookies['user_id'], };
   res.render('urls_index', templateVars);
 });
 
@@ -68,37 +75,58 @@ app.get("/urls/new", (req, res) => {
   const templateVars = { 
     shortURL: req.params.id,
     longURL: urlDatabase[req.params.id],
-    user: req.cookies["user_id"],};
+    user_id: req.cookies["user_id"],};
     res.render("urls_new", templateVars);  
 });
 
 app.post("/register", (req, res) => {
-  let userId = generateRandomString();
-    users[userId] = { id: userId, email: req.body.email, password: req.body.password };
-    console.log(users);
-    res.cookie('user_id', userId);
-    res.redirect('/urls');
+  if (req.body.email === "" || req.body.password === "") {
+    res.status(400).send('Please fill in the fields')
 
+  } else if (lookUpByEmail(req.body.email)) {
+    res.status(403).send('Sorry email already in use')
+
+  } else {
+    let user_id = generateRandomString();
+    users[user_id] = { id: user_id, email: req.body.email, password: req.body.password };
+    console.log(users);
+    res.cookie('user_id', user_id);
+    res.redirect('/urls');
+  }
 });
 
 app.get('/register', (req, res) => {
-  const userId = req.body.userId;
-  res.render('register')
+  let templateVars = {
+    shortURL: req.params.shortURL,
+    longURL: urlDatabase[req.params.shortURL],
+    user_id: req.cookies.user_id
+  }
+  res.render('register',templateVars)
 });
 
 app.post("/login", (req, res) => {
-  const userId = req.body.userId
-    res.cookie('user_id', userId);
+   if (req.body.email === "" || req.body.password === ""){
+    res.status(400).send('Please enter info');
+
+  }else if (!lookUpByEmail(req.body.email)) {
+    res.status(403).send('Error email not found!');
+
+  } else if (req.body.password === users[lookUpByEmail(req.body.email)].password) {
+    res.cookie('user_id', lookUpByEmail(req.body.email));
     res.redirect('/urls');
+  } else {
+    res.status(403).send('Please try your password again');
+  }
 });
 
 app.get("/login", (req, res) => {
   const templateVars = { 
-    shortURL: req.params.id,
-    longURL: urlDatabase[req.params.id],
-    user: req.cookies["user_id"],};
-  res.render('urls_login')
-})
+    shortURL: req.params.shortURL,
+    longURL: urlDatabase[req.params.longURL],
+    user_id: req.cookies.user_id
+  }
+  res.render('login', templateVars)
+});
 
 app.post("/urls", (req, res) => {
   const shortURL = generateRandomString();
@@ -137,7 +165,7 @@ app.get("/u/:shortURL", (req, res) => {
 
 app.post('/logout', (req, res) => {
   res.clearCookie('user_id',);
-  res.redirect('/urls')
+  res.redirect('/urls');
 });
 
 app.get("/urls.json", (req, res) => {
