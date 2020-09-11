@@ -1,0 +1,23 @@
+
+res.render('error', {code: 404, error: 'it doesn\'nt exist man'})
+
+
+
+
+
+
+
+/*
+app.get("/urls/:shortURL", (req, res) => {
+  if (Object.keys(users[req.cookies['user_id']].sites).includes(req.params.shortURL)) {
+    let templateVars = { 
+      shortURL: req.params.shortURL, 
+      longURL: urlDatabase[req.params.shortURL],
+      user_id: req.cookies['user_id']
+    };
+    res.render("urls_show", templateVars);
+  } else {
+    res.render('urls_index'); // FIGURE OUT
+  }
+});
+*/

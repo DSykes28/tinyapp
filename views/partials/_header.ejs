@@ -10,13 +10,13 @@
         <a class="nav-item nav-link" href="/urls">My URLs</a>
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
                 
-          <% if (!user_id){ %>
+          <% if (!user_id) { %>
                        
             <a class="nav-item nav-link" href="/login">login</a>
             <a class="nav-item nav-link" href="/register">register</a>
             
-            <% } else{ %>
-              <h4><%= user_id %></h4>  
+            <% } else { %>
+              <h4><%= urls.email %></h4>  
               <form method="POST" action="/logout">
                 <input type="submit" value="Logout">
              </form>

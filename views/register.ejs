@@ -6,16 +6,25 @@
   
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-  <title>Document</title>
+  <title>Register</title>
 </head>
+
 <body>
   <%- include ('partials/_header') %>
+  <tr> 
 
-  <h1>REGISTER!</h1:>
-    <form action="/register" method="POST">
-      <input type="text" name="email" placeholder="EMail">
-      <input type="password" name="password" placeholder="Password">
-    <button type="submit">Register!</button>
-    </form>
+    <h3>REGISTER!</h3:>
+      
+      <form action="/register" method="POST">
+        <input type="text" name="email" placeholder="EMail">
+        <input type="password" name="password" placeholder="Password">
+        <button type="submit">Register!</button>
+      </form>
+  
+  </tr>
+      <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
