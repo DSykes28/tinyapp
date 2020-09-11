@@ -4,6 +4,8 @@ const PORT = 8080; // default port 8080
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const cookieSession = require('cookie-session');
+const bcrypt = require('bcrypt');
+
 
 app.use(cookieParser())
 app.use(cookieSession({
@@ -63,18 +65,15 @@ const lookUpByEmail = ( newEmail) => {
 
 const urlForUser = (id) => {
   const tempUrl = {};
-  for (let shortUrl in urlDatabase) {
-    if (id === urlDatabase[shortUrl].userID) {
-      tempUrl[shortUrl] = urlDatabase[shortUrl]
+  for (let shortUrl in urlDatabase) {  //iterate over urlDatabase
+
+    if (id === urlDatabase[shortUrl].userID) {  //compare our id with the userID of the shortURL.
+
+      tempUrl[shortUrl] = urlDatabase[shortUrl]  // if id's are equal add to the tempURL 
     }
   }
-
   return tempUrl;
-  //iterate over urlDatabase
-  //compare our userID with the userId of the shortURL.
-  // if ID's are equal add to the tempURL
-  
-}
+};
 
 app.get("/", (req, res) => {
   res.redirect("/urls");
@@ -90,6 +89,10 @@ app.get('/register', (req, res) => {
 });
 
 app.post("/register", (req, res) => {
+
+const password = req.body.password
+const hashedPassword = bcrypt.hashSync(password, 10);
+  
 if (req.body.email === "" || req.body.password === "") {
   res.status(400).send('Error 404 - Please fill in the fields')
   
@@ -98,7 +101,7 @@ if (req.body.email === "" || req.body.password === "") {
   
 } else {
   let user_id = generateRandomString();
-  users[user_id] = { id: user_id, email: req.body.email, password: req.body.password };
+  users[user_id] = { id: user_id, email: req.body.email, password: hashedPassword };
   console.log(users);
   res.cookie('user_id', user_id);
   res.redirect('/urls');
@@ -121,7 +124,7 @@ app.post("/login", (req, res) => {
   } else if (!lookUpByEmail(req.body.email)) {
     res.status(403).send('Error email not found!');
     
-  } else if (req.body.password === users[lookUpByEmail(req.body.email)].password) {
+  } else if (bcrypt.compareSync(req.body.password, users[lookUpByEmail(req.body.email)].password)) {
     res.cookie('user_id', lookUpByEmail(req.body.email));
     res.redirect('/urls');
   } else {
@@ -132,12 +135,14 @@ app.post("/login", (req, res) => {
 app.get("/urls", (req, res) => {
   if (!req.cookies.user_id) {
     res.render('login');
-  } 
-  let templateVars = {
-    urls: urlForUser(req.cookies.user_id),
-    user_id: req.cookies.user_id
-  };
-  res.render("urls_index", templateVars);
+  } else {
+
+    let templateVars = {
+      urls: urlForUser(req.cookies.user_id),
+      user_id: req.cookies.user_id
+    } 
+    res.render("urls_index", templateVars);
+  }
 });
 
 app.post("/urls", (req, res) => {
