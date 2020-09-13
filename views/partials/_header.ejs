@@ -12,7 +12,7 @@
       
           <% if (typeof user_id != "undefined" && user_id) { %>
 
-            <h4><%= urls.email %></h4>  
+            <h4><%= user_id.email %></h4>  
           <form method="POST" action="/logout">
             <input type="submit" value="Logout">
           </form>
