@@ -17,7 +17,7 @@
         <p class="card-text">Short URL: <a href="/u/<%= shortURL %>"></a></p>
       </div>
       <div class="card-footer text-muted">
-        <h4>Edit</h4>
+        <form method="GET" action="/url/<%= shortURL%>"> <h4>Edit</h4></form>
       
         <form class="form-inline" method="POST" action="/urls/<%= shortURL%>" style="margin-left: 150px">
           <tr>

@@ -10,9 +10,9 @@
         <a class="nav-item nav-link" href="/urls">My URLs</a>
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
       
-          <% if (typeof user_id != "undefined" && user_id) { %>
+          <% if (typeof user_email != "undefined" && user_email) { %>
 
-            <h4><%= user_id.email %></h4>  
+            <h4><%= user_email %></h4>  
           <form method="POST" action="/logout">
             <input type="submit" value="Logout">
           </form>
